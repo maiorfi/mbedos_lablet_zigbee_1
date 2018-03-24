@@ -1,0 +1,10 @@
+mbed-os/features/FEATURE_BLE/*
+mbed-os/features/FEATURE_LWIP/*
+mbed-os/features/FEATURE_UVISOR/*
+mbed-os/features/filesystem/*
+mbed-os/frameworks/*
+mbed-os/features/netsocket/*
+mbed-os/features/mbedtls/*
+Debug/*
+Release/*
+Develop/*

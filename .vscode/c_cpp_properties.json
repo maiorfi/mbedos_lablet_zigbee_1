@@ -1,0 +1,21 @@
+{
+    "configurations": [
+               {
+            "name": "mbedos",
+            "includePath": [
+                "${workspaceRoot}"
+            ],
+            "defines": [
+            ],
+            "intelliSenseMode": "clang-x64",
+            "browse": {
+                "path": [
+                    "${workspaceRoot}"
+                ],
+                "limitSymbolsToIncludedHeaders": false,
+                "databaseFilename": ""
+            }
+        }
+    ],
+    "version": 3
+}

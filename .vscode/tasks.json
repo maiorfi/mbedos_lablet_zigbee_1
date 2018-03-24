@@ -1,0 +1,28 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "taskName": "mbed_compile_debug",
+            "type": "shell",
+            "command": "mbed compile --profile mbed-os/tools/profiles/debug.json",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "taskName": "mbed_compile_release",
+            "type": "shell",
+            "command": "mbed compile --profile mbed-os/tools/profiles/release.json",
+            "problemMatcher": []
+        },
+        {
+            "taskName": "mbed_clean_and_compile_release",
+            "type": "shell",
+            "command": "mbed compile --profile mbed-os/tools/profiles/release.json -c",
+            "problemMatcher": []
+        }
+    ]
+}
