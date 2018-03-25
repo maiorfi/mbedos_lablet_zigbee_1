@@ -1,0 +1,10 @@
+{
+    "config": {
+      "thread_stack_size": {
+        "value": 3072
+      },
+      "main_stack_size": {
+        "value": 2048
+      }
+    }
+  }

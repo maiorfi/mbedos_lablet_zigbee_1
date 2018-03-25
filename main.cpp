@@ -92,10 +92,13 @@ int main()
  
     const RemoteXBeeZB remoteDevice = RemoteXBeeZB(REMOTE_NODE_ADDR64);
  
-    send_data_to_coordinator(xbee);
-    send_broadcast_data(xbee);
-    send_data_to_remote_node(xbee, remoteDevice);
-    send_explicit_data_to_remote_node(xbee, remoteDevice);
+    while(true)
+    {
+        send_data_to_coordinator(xbee);
+        send_broadcast_data(xbee);
+        send_data_to_remote_node(xbee, remoteDevice);
+        send_explicit_data_to_remote_node(xbee, remoteDevice);
+    }
  
     delete(log_serial);
 }
