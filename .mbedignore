@@ -5,6 +5,9 @@ mbed-os/features/filesystem/*
 mbed-os/frameworks/*
 mbed-os/features/netsocket/*
 mbed-os/features/mbedtls/*
+mbed-os/features/cellular/*
+mbed-os/features/lorawan/*
 Debug/*
 Release/*
 Develop/*
+.vscode/*
