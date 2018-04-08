@@ -1,3 +1,4 @@
 BUILD/
 mbed_settings.pyc
 mbed_settings.py
+xbee_config_files/backup/*

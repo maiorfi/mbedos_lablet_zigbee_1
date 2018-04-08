@@ -9,7 +9,7 @@
 
 #define ENABLE_THREAD_SAFE_LOGGING
  
-#define SYNC_OPS_TIMEOUT_MS         2000
+#define SYNC_OPS_TIMEOUT_MS         10000
  
 #define RADIO_TX                PC_10 /* TODO: specify your setup's Serial TX pin connected to the XBee module DIN pin */
 #define RADIO_RX                PC_11 /* TODO: specify your setup's Serial RX pin connected to the XBee module DOUT pin */

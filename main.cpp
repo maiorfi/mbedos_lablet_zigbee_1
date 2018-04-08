@@ -6,7 +6,7 @@ using namespace DigiLog;
 #endif
  
 #define REMOTE_NODE_ADDR64_MSB  ((uint32_t)0x0013A200)
-#define REMOTE_NODE_ADDR64_LSB  ((uint32_t)0x40ADED7B)
+#define REMOTE_NODE_ADDR64_LSB  ((uint32_t)0x4106F8A7)
  
 #define REMOTE_NODE_ADDR64      UINT64(REMOTE_NODE_ADDR64_MSB, REMOTE_NODE_ADDR64_LSB)
  
@@ -69,7 +69,7 @@ static void send_explicit_data_to_remote_node(XBeeZB& xbee, const RemoteXBeeZB& 
 int main()
 {
     log_serial = new Serial(DEBUG_TX, DEBUG_RX);
-    log_serial->baud(9600);
+    log_serial->baud(115200);
     log_serial->printf("Sample application to demo how to send unicast and broadcast data with the XBeeZB\r\n\r\n");
     log_serial->printf(XB_LIB_BANNER);
  
@@ -77,7 +77,7 @@ int main()
     new DigiLoggerMbedSerial(log_serial, LogLevelInfo);
 #endif
  
-    XBeeZB xbee = XBeeZB(RADIO_TX, RADIO_RX, RADIO_RESET, NC, NC, 9600);
+    XBeeZB xbee = XBeeZB(RADIO_TX, RADIO_RX, RADIO_RESET, NC, NC, 115200);
  
     RadioStatus radioStatus = xbee.init();
     MBED_ASSERT(radioStatus == Success);
