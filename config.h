@@ -2,8 +2,8 @@
 #define __CONFIG_H_
  
 /** Library configuration options */
-#define ENABLE_LOGGING
-#define ENABLE_ASSERTIONS
+//#define ENABLE_LOGGING
+//#define ENABLE_ASSERTIONS
 #define FRAME_BUFFER_SIZE           4
 #define MAX_FRAME_PAYLOAD_LEN       128
 
@@ -11,11 +11,11 @@
  
 #define SYNC_OPS_TIMEOUT_MS         10000
  
-#define RADIO_TX                PC_10 /* TODO: specify your setup's Serial TX pin connected to the XBee module DIN pin */
-#define RADIO_RX                PC_11 /* TODO: specify your setup's Serial RX pin connected to the XBee module DOUT pin */
+#define RADIO_TX                PC_6 /* TODO: specify your setup's Serial TX pin connected to the XBee module DIN pin */
+#define RADIO_RX                PC_7 /* TODO: specify your setup's Serial RX pin connected to the XBee module DOUT pin */
 //#define RADIO_RTS               NC /* TODO: specify your setup's Serial RTS# pin connected to the XBee module RTS# pin */
 //#define RADIO_CTS               NC /* TODO: specify your setup's Serial CTS# pin connected to the XBee module CTS# pin */
-//#define RADIO_RESET             NC /* TODO: specify your setup's GPIO (output) connected to the XBee module's reset pin */
+#define RADIO_RESET             PC_8 /* TODO: specify your setup's GPIO (output) connected to the XBee module's reset pin */
 //#define RADIO_SLEEP_REQ         NC /* TODO: specify your setup's GPIO (output) connected to the XBee module's SLEEP_RQ pin */
 //#define RADIO_ON_SLEEP          NC /* TODO: specify your setup's GPIO (input) connected to the XBee module's ON_SLEEP pin */
 #define DEBUG_TX                USBTX /* TODO: specify your setup's Serial TX for debugging */

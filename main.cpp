@@ -4,101 +4,60 @@
 #include "DigiLoggerMbedSerial.h"
 using namespace DigiLog;
 #endif
- 
-#define REMOTE_NODE_ADDR64_MSB  ((uint32_t)0x0013A200)
-#define REMOTE_NODE_ADDR64_LSB  ((uint32_t)0x4106F8A7)
- 
-#define REMOTE_NODE_ADDR64      UINT64(REMOTE_NODE_ADDR64_MSB, REMOTE_NODE_ADDR64_LSB)
- 
+
 using namespace XBeeLib;
- 
+
 Serial *log_serial;
- 
-static void send_data_to_coordinator(XBeeZB& xbee)
+
+/** Callback function, invoked at packet reception */
+static void receive_cb(const RemoteXBeeZB &remote, bool broadcast, const uint8_t *const data, uint16_t len)
 {
-    const char data[] = "send_data_to_coordinator";
-    const uint16_t data_len = strlen(data);
- 
-    const TxStatus txStatus = xbee.send_data_to_coordinator((const uint8_t *)data, data_len);
-    if (txStatus == TxStatusSuccess)
-        log_serial->printf("send_data_to_coordinator OK\r\n");
-    else
-        log_serial->printf("send_data_to_coordinator failed with %d\r\n", (int) txStatus);
+    const uint64_t remote_addr64 = remote.get_addr64();
+
+    log_serial->printf("\r\nGot a %s RX packet [%08x:%08x|%04x], len %d\r\nData: ", broadcast ? "BROADCAST" : "UNICAST", UINT64_HI32(remote_addr64), UINT64_LO32(remote_addr64), remote.get_addr16(), len);
+
+    for (int i = 0; i < len; i++)
+        log_serial->printf("%02x ", data[i]);
+
+    log_serial->printf("\r\n");
 }
- 
-static void send_broadcast_data(XBeeZB& xbee)
-{
-    const char data[] = "send_broadcast_data";
-    const uint16_t data_len = strlen(data);
- 
-    const TxStatus txStatus = xbee.send_data_broadcast((const uint8_t *)data, data_len);
-    if (txStatus == TxStatusSuccess)
-        log_serial->printf("send_broadcast_data OK\r\n");
-    else
-        log_serial->printf("send_broadcast_data failed with %d\r\n", (int) txStatus);
-}
- 
-static void send_data_to_remote_node(XBeeZB& xbee, const RemoteXBeeZB& RemoteDevice)
-{
-    const char data[] = "send_data_to_remote_node";
-    const uint16_t data_len = strlen(data);
- 
-    const TxStatus txStatus = xbee.send_data(RemoteDevice, (const uint8_t *)data, data_len);
-    if (txStatus == TxStatusSuccess)
-        log_serial->printf("send_data_to_remote_node OK\r\n");
-    else
-        log_serial->printf("send_data_to_remote_node failed with %d\r\n", (int) txStatus);
-}
- 
-static void send_explicit_data_to_remote_node(XBeeZB& xbee, const RemoteXBeeZB& RemoteDevice)
-{
-    char data[] = "send_explicit_data_to_remote_node";
-    const uint16_t data_len = strlen(data);
-    const uint8_t dstEP = 0xE8;
-    const uint8_t srcEP = 0xE8;
-    const uint16_t clusterID = 0x0011;
-    const uint16_t profileID = 0xC105;
- 
-    const TxStatus txStatus = xbee.send_data(RemoteDevice, dstEP, srcEP, clusterID, profileID, (const uint8_t *)data, data_len);
-    if (txStatus == TxStatusSuccess)
-        log_serial->printf("send_explicit_data_to_remote_node OK\r\n");
-    else
-        log_serial->printf("send_explicit_data_to_remote_node failed with %d\r\n", (int) txStatus);
-}
- 
+
 int main()
 {
     log_serial = new Serial(DEBUG_TX, DEBUG_RX);
     log_serial->baud(115200);
-    log_serial->printf("Sample application to demo how to send unicast and broadcast data with the XBeeZB\r\n\r\n");
+    log_serial->printf("Sample application to demo how to receive unicast and broadcast data with the XBeeZB\r\n\r\n");
     log_serial->printf(XB_LIB_BANNER);
- 
+
 #if defined(ENABLE_LOGGING)
     new DigiLoggerMbedSerial(log_serial, LogLevelInfo);
 #endif
- 
+
     XBeeZB xbee = XBeeZB(RADIO_TX, RADIO_RX, RADIO_RESET, NC, NC, 115200);
- 
-    RadioStatus radioStatus = xbee.init();
+
+    /* Register callbacks */
+    xbee.register_receive_cb(&receive_cb);
+
+    RadioStatus const radioStatus = xbee.init();
     MBED_ASSERT(radioStatus == Success);
- 
+
     /* Wait until the device has joined the network */
     log_serial->printf("Waiting for device to join the network: ");
-    while (!xbee.is_joined()) {
+
+    while (!xbee.is_joined())
+    {
         wait_ms(1000);
         log_serial->printf(".");
     }
+    
     log_serial->printf("OK\r\n");
- 
-    const RemoteXBeeZB remoteDevice = RemoteXBeeZB(REMOTE_NODE_ADDR64);
- 
-    while(true)
+
+    while (true)
     {
-        send_data_to_coordinator(xbee);
-        send_broadcast_data(xbee);
-        send_data_to_remote_node(xbee, remoteDevice);
-        send_explicit_data_to_remote_node(xbee, remoteDevice);
+        xbee.process_rx_frames();
+        wait_ms(5);
+        //log_serial->printf(".");
     }
- 
-    delete(log_serial);
+
+    delete (log_serial);
 }

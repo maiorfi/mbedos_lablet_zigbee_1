@@ -13,6 +13,12 @@
             }
         },
         {
+            "taskName": "mbed_clean_and_compile_debug",
+            "type": "shell",
+            "command": "mbed compile --profile mbed-os/tools/profiles/debug.json -c",
+            "problemMatcher": []
+        },
+        {
             "taskName": "mbed_compile_release",
             "type": "shell",
             "command": "mbed compile --profile mbed-os/tools/profiles/release.json",
